@@ -15,6 +15,7 @@ def plot_scatter_plot(dataset_df):
     """
     Plot a scatter plot showing the distribution of median house values against Longitude-Latitude values
     """
+    plt.figure()  # start a fresh, blank figure
     scatter = plt.scatter(x=dataset_df["Longitude"], y=dataset_df["Latitude"], c=dataset_df["MedHouseVal"], s=dataset_df["Population"]/1000, cmap="viridis", alpha=0.4)
     plt.xlabel("Longitude")
     plt.ylabel("latitude")
@@ -23,17 +24,20 @@ def plot_scatter_plot(dataset_df):
     cbar.set_label("Median House Value")
     figures_dir = get_figures_directory()
     plt.savefig( figures_dir / "geo-scatter.png")
+    plt.close()  # close it so the next chart doesn't draw on top
 
 def plot_histogram(dataset_df):
     """
     Plot a histogram showing the distribution of Median House values
     """
+    plt.figure()  # start a fresh, blank figure
     plt.hist(dataset_df["MedHouseVal"], bins=30)
     plt.title("distribution of Median House Values")
     plt.xlabel("Median House Value ($100,000)")
     plt.ylabel("Number")
     figures_dir = get_figures_directory()
     plt.savefig(figures_dir / "house-value-histogram.png")
+    plt.close()
 
 # plot_scatter_plot(dataset_df)
 # plot_histogram(dataset_df)

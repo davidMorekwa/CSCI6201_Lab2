@@ -1,0 +1,23 @@
+CSCI 6201 Lab 2 Submission
+Final Project Checkpoint: Working with Data in Python
+
+Team Members:
+- David Morekwa
+- Yehowashidaa Ashong-Kotei
+
+Dataset: California Housing (scikit-learn)
+
+Problem Type: Regression
+
+Repository URL: https://github.com/davidMorekwa/CSCI6201_Lab2
+
+Research Questions:
+1. Can the available features (income, house age, location, etc.) be used to predict the median house value of a district?
+2. Which features are most strongly related to house value?
+3. How well does a simple Linear Regression model perform on this data?
+
+Preliminary Result:
+Linear Regression (70% training / 30% testing) gave a Mean Squared Error of 0.53, meaning predictions are typically off by about $73,000.
+
+Questions for Instructor Feedback:
+1. About 965 districts are capped at $500,000. Should we remove these before modeling, or keep them?
