@@ -10,7 +10,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split, cross_validate
+from sklearn.model_selection import train_test_split, cross_validate, KFold
 from sklearn.metrics import (
     mean_absolute_error,
     mean_squared_error,
@@ -57,9 +57,13 @@ def cross_validate_model(model, X, y):
     Train and test the model on 5 different splits of the data.
     Returns the average and spread (standard deviation) of MAE and R².
     """
+    # Shuffle before splitting into folds, like the 80/20 split.
+    # (The dataset is stored in order of location, so unshuffled folds
+    # would each test on a different region of California.)
+    folds = KFold(n_splits=CV_FOLDS, shuffle=True, random_state=RANDOM_STATE)
     scores = cross_validate(
         model, X, y,
-        cv=CV_FOLDS,
+        cv=folds,
         scoring={"MAE": "neg_mean_absolute_error", "R2": "r2"},
     )
     # scikit-learn reports MAE as a negative number, so flip the sign
