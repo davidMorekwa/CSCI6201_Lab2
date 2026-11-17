@@ -15,6 +15,8 @@ from explore import (
     count_missing,
     correlation_with_target,
 )
+from evaluate import split_data, evaluate_predictions
+from linear_models import build_models
 
 
 class TestExploreHelpers(unittest.TestCase):
@@ -64,6 +66,37 @@ class TestCaliforniaDataset(unittest.TestCase):
 
     def test_no_missing_values(self):
         self.assertEqual(count_missing(self.dataset.frame), 0)
+
+
+class TestEvaluation(unittest.TestCase):
+    """Tests for the shared evaluation tools and the baseline."""
+
+    def test_metrics_known_values(self):
+        # Same numbers as the lecturer's MAE example:
+        # errors are 10, 20, 10 -> MAE = 13.33, MSE = (100 + 400 + 100) / 3 = 200
+        scores = evaluate_predictions([100, 150, 200], [110, 130, 190])
+        self.assertAlmostEqual(scores["MAE"], 13.333, places=2)
+        self.assertAlmostEqual(scores["MSE"], 200.0)
+        self.assertAlmostEqual(scores["R2"], 0.88)
+
+    def test_perfect_predictions(self):
+        scores = evaluate_predictions([1, 2, 3], [1, 2, 3])
+        self.assertEqual(scores["MAE"], 0)
+        self.assertEqual(scores["R2"], 1.0)
+
+    def test_split_is_80_20(self):
+        dataset = load_dataset()
+        X_train, X_test, y_train, y_test = split_data(dataset)
+        self.assertEqual(len(X_train), 16512)
+        self.assertEqual(len(X_test), 4128)
+
+    def test_baseline_predicts_training_mean(self):
+        baseline = dict(build_models())["Baseline (training mean)"]
+        X = pd.DataFrame({"a": [1, 2, 3, 4]})
+        y = [10, 20, 30, 40]
+        baseline.fit(X, y)
+        # Whatever the input, it always guesses the average: 25
+        self.assertEqual(list(baseline.predict(X)), [25, 25, 25, 25])
 
 
 if __name__ == "__main__":
