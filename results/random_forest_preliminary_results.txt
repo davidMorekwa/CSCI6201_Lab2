@@ -1,6 +1,7 @@
 California Housing dataset regression model using RandomForest
 Training samples: 14448
 Test samples: 6192
-Mean Squared error: 0.26
-r2-score: 0.80
+Fine Tuned Parameter Values: {'min_samples_split': 5, 'min_samples_leaf': 2, 'max_features': 0.4, 'max_depth': 20}
+Mean Squared error: 0.24
+r2-score: 0.82
 Mean Absolute Error: 0.33
